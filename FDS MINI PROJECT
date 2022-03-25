@@ -1,0 +1,232 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX 10
+
+//defined a struct
+struct task
+{
+  char task_name[50];
+  int date;
+  int duration_in_min;
+  char venue [200];
+  char special_note [1000];
+
+}T[MAX];
+
+
+void accept(struct task T[MAX],int n);
+void display(struct task T[MAX], int n);
+void sort_according_to_time(struct task T[MAX],int n);
+void sort_according_to_nearest_date(struct task T[MAX], int n);
+void entire_schedule_ofparticulardate(struct task T[MAX], int n);
+
+
+
+//main function
+int main ()
+{
+  int character=0,date,month,year;
+    int digit=0;
+    int symbol=0,flag=0;
+    int i,total,age;
+    char password[12],name[20],gender[20];
+    do{
+
+    printf(" *Welcome, to personal diary mangement system!😃*");
+    printf("\n\nCreate a strong password (Conditions: At leat 1 numeric value, 1 alphabet, 1 special symbol");
+    printf("\nYour password: ");
+
+   scanf("%s",password);
+
+    for(i=0;i<strlen(password);i++)
+    {
+
+        if ((password[i])>='0' && password[i]<='9')
+        {
+            character=1;
+        }
+
+        if ((password[i]>='a'|| password[i]>='A') && (password[i]<='z' || password[i]<='Z'))
+        {
+            digit=1;
+        }
+
+        if(password[i]=='@' || password[i]=='$' || password[i]=='#'||password[i]=='*'||password[i]=='&')
+        {
+            symbol=1;
+        }
+    }
+    total=character+digit+symbol;
+    if(total>=3)
+    {
+        flag=1;
+    }
+     else
+     {
+        printf("oops! invalid password, please read conditions once again.\n");
+    }
+    }while(flag!=1);
+
+   printf("\nFill your personal details:");
+   printf("\nEnter name:");
+   scanf("%s",name);
+   printf("Enter gender:");
+   scanf("%s",gender);
+   printf("Enter age:");
+   scanf("%d",&age);
+   printf("Enter your date of birth(format dd/mm/yyyy):");
+   scanf("%d%d%d",&date,&month,&year);
+   printf("\nYour name=%s\nGender=%s\nAge=%d\nDate of bith=%d-%d-%d\n",name,gender,age,date,month,year);
+
+ printf("\n\n YOU HAVE SUCCESSFULLY LOGGED IN!😃");
+ int n,ch;
+ printf("\n\nPlease enter no of task:");
+ scanf("%d",&n);
+
+ do
+ {
+  
+   printf("\n1. Enter the task information:\n");
+   printf("2. display the information:\n");
+   printf("3. Find which task requires least time:\n");
+   printf("4. Sort according to nearest date:\n");
+   printf("5. Display entire schedule of particular date:\n");
+   printf("6.Exit\n");
+   printf("Enter your choice:");
+   scanf("%d",&ch);
+  
+
+
+   switch(ch)
+   {
+     case 1: accept(T,n);
+             break;
+
+     case 2 : display(T,n);
+             break;
+
+     case 3 : sort_according_to_time( T, n);
+             break;
+     case 4 : sort_according_to_nearest_date(T, n);
+             break;
+     case 5 : entire_schedule_ofparticulardate( T, n);
+             break;
+
+     default : printf("Please enter correct choice!");
+
+   }
+ }while(ch != 5);
+
+
+return 0;
+}
+
+void accept(struct task T[MAX],int n)
+{
+  for(int i = 0; i < n ; i++)
+  {
+    printf("\nEnter name of the task:");
+    scanf("%s",T[i].task_name);
+
+    printf("Enter date:");
+    scanf("%d",&T[i].date);
+
+    printf("Enter duration of the task in minutes:");
+    scanf("%d",&T[i].duration_in_min);
+
+    printf("Enter venue:");
+    scanf("%s",T[i].venue);
+
+    printf("Enter special note:");
+    scanf("%s",T[i].special_note);
+  }
+
+}
+
+void display(struct task T[MAX], int n)
+{
+  int j = 1;
+  printf("********************************************\n");
+  for(int i = 0; i < n; i++)
+  {
+    printf("\nName of the task%d :%s",j,T[i].task_name);
+    printf("\nDate on which task%d should be done:%d",j,T[i].date);
+    printf("\nDuration of the task%d is%d",j,T[i].duration_in_min);
+    printf("\nvenue of task%d is:%s",j,T[i].venue);
+    printf("\nSpecial note about task%d :%s\n",j,T[i].special_note );
+    j++;
+
+  }
+   printf("********************************************\n");
+}
+
+void sort_according_to_time(struct task T[MAX],int n)
+{
+  int max = 99999999;
+  int p = 0;
+  for(int i = 0; i < n; i++)
+  {
+    if(T[i].duration_in_min < max)
+    {
+      max = T[i].duration_in_min;
+      p = i;
+    }
+  }
+
+  printf("\n The task %s requires lowest time of %d\n", T[p].task_name,T[p].duration_in_min);
+   printf("********************************************\n");
+}
+
+void sort_according_to_nearest_date(struct task T[MAX], int n)
+{
+  int x = 31;
+  int p = 0;
+  for(int i = 0; i < n; i++)
+  {
+    if(T[i].date < x)
+    {
+      x = T[i].date;
+      p = i;
+    }
+  }
+
+  printf("\n The task %s is with nearest date of %d\n", T[p].task_name,T[p].date);
+ printf("********************************************\n");
+}
+
+void search_no_of_task_(struct task T[MAX],int n)
+{
+  int count = 0;
+  int entered_date;
+  printf("Enter date:");
+  scanf("%d",&entered_date);
+  for(int i = 0; i < n; i++)
+  {
+    if(T[i].date == entered_date)
+    count++;
+  }
+  printf("The no. of task on particular date is %d",count);
+ printf("********************************************\n");
+}
+
+
+void entire_schedule_ofparticulardate(struct task T[MAX], int n)
+{
+  int j = 1;
+  int entered_date;
+  printf("Enter date:");
+  scanf("%d",&entered_date);
+   printf("********************************************\n");
+  for(int i = 0; i < n; i++)
+  {
+    if(T[i].date == entered_date )
+    {
+    printf("\nName of the task%d :%s",j,T[i].task_name);
+    printf("\nDuration of the task%d is%d",j,T[i].duration_in_min);
+    printf("\nvenue of task%d is:%s",j,T[i].venue);
+    printf("\nSpecial note about task%d :%s\n",j,T[i].special_note );
+    }
+    j++;
+
+  }
+  
